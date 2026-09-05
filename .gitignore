@@ -1,0 +1,13 @@
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+.jupyter/
+node_modules/
+secom.zip
+# Learning scratchpad: the curated dashboard is under dashboard/.
+data/gage_rr_progress.xlsx
+data/*preview*
+data/*.png
+data/*.inspect.ndjson
