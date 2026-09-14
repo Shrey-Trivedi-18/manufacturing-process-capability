@@ -8,6 +8,12 @@ I generated 20,000 part records and a 90-reading crossed Gage R&R dataset, check
 
 [Read the analysis](reports/analysis.html) · [Executed notebook](quality_analysis.ipynb) · [Excel dashboard](dashboard/quality_dashboard.xlsx) · [Methods and assumptions](reports/methods.md)
 
+### Portfolio visuals
+
+- [Machine-to-machine variation](dashboard/artifacts/machine_variation.png)
+- [Primary failure-mode Pareto](dashboard/artifacts/defect_pareto.png)
+- [Centering sensitivity across paired seeds](dashboard/artifacts/centering_sensitivity.png)
+
 ## Main findings
 
 | Result | Interpretation |
