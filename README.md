@@ -1,137 +1,57 @@
-# Manufacturing Process Capability & Defect Reduction
+# Machine Centering and Inspection Yield
 
-A quality-engineering portfolio study: **measure the system, locate the variation, test an intervention, and define the controls.**
+A simulated machining-quality study asking: **how much does correcting one machine's diameter offset help when most inspection failures have other causes?**
 
-The main study follows 20,000 **simulated** machined parts through Gage R&R, process monitoring, dimensional performance, root-cause analysis and a modeled machine-centering change. A second study uses **real, anonymized SECOM data** to explore missingness, monitoring signals and failure classification.
+I generated 20,000 part records and a 90-reading crossed Gage R&R dataset, checked inspection consistency, compared machine-level variation, and evaluated paired centering scenarios. The causes are deliberately programmed into the simulation; this is a methods and decision-analysis project, not a claim of shop-floor discovery or realized savings.
 
-**No real production improvement is claimed.** The machining process and its root cause are authored into the generator. The SECOM results are exploratory, not independently validated predictive performance.
+![Corrected inspection results, diameter distributions, primary failure categories and paired centering sensitivity](dashboard/quality_dashboard_preview.png)
 
-[Machining notebook](quality_analysis.ipynb) · [SECOM notebook](secom_analysis.ipynb) · [Excel dashboard](dashboard/quality_dashboard.xlsx) · [Drawing PDF](reports/precision_machined_shaft_drawing.pdf)
+[Read the analysis](reports/analysis.html) · [Executed notebook](quality_analysis.ipynb) · [Excel dashboard](dashboard/quality_dashboard.xlsx) · [Methods and assumptions](reports/methods.md)
 
-## Manufacturing dashboard
+## Main findings
 
-[![Manufacturing dashboard showing 94.7% first-pass yield, 1,065 defective parts, overall Ppk 0.79, M3 Ppk 0.73, daily defect rates, defect counts and machine-by-shift failure rates.](dashboard/quality_dashboard_preview.png)](dashboard/quality_dashboard_preview.png)
-
-The image is a presentation companion generated from the same CSV as the [editable Excel dashboard](dashboard/quality_dashboard.xlsx), not an Excel screenshot. The workbook includes native charts, formula-linked summary tiles, a heatmap and supporting tables. [Metric values](dashboard/metrics.json) and the [preview generator](scripts/build_dashboard_preview.py) make the image reproducible.
-
-## What the study found
-
-| Question | Evidence | Interpretation |
-|---|---|---|
-| Can the gage distinguish the sampled parts? | **9.13% GRR**, **15** distinct categories | Acceptable under the study criteria; the sampled part range matters. |
-| Where is the dimensional problem? | **M3 Ppk = 0.73**; other machines **2.93–2.99** | The modeled M3 offset dominates diameter differences. |
-| What causes most recorded failures? | **407 surface-finish defects**, **38.2%** of failures | Dimensional centering alone cannot remove the largest defect category. |
-| Does modeled centering help? | Overall Ppk **0.79 → 2.87**; FPY **94.7% → 95.1%** | Dimensional performance improves substantially; total yield improves modestly. |
-
-### 1. Simulated precision-machining line
-
-Four CNC machines, three shifts and three suppliers produce 20,000 parts. A crossed measurement study adds **10 parts × 3 operators × 3 trials = 90 measurements**. True dimensions are retained separately from measured dimensions.
-
-| Characteristic | Nominal | Lower limit | Upper limit |
-|---|---:|---:|---:|
-| Outside diameter | 20.00 mm | 19.70 mm | 20.30 mm |
-| Length | 50.00 mm | 49.50 mm | 50.50 mm |
-
-The [machining notebook](quality_analysis.ipynb) covers:
-
-1. Crossed Gage R&R and variance components.
-2. Baseline dimensional performance and inspection yield.
-3. I-MR charts and Western Electric rule screening.
-4. Defect Pareto and machine/shift/supplier stratification.
-5. ANOVA, regression, temperature interactions and residual diagnostics.
-6. Qualitative root-cause reasoning and a seeded M3-centering experiment.
-
-Machine explains approximately **89.3% of diameter variation** in the one-factor ANOVA. The multiple regression has **R² ≈ 0.897**. M3 shows the strongest temperature association (**r ≈ 0.395**). These findings recover mechanisms intentionally embedded in the simulation; they do not discover a previously unknown physical cause.
-
-| Measure | Baseline | Modeled M3 centering |
-|---|---:|---:|
-| Overall diameter Ppk | 0.79 | 2.87 |
-| M3 diameter Ppk | 0.73 | 2.80 |
-| First-pass yield | 94.675% | 95.050% |
-| Defective parts per million | 53,250 | 49,500 |
-
-Both scenarios use seed 42. Surface-finish, burr, taper and tool-mark mechanisms remain active after centering.
-
-**How to interpret these numbers**
-
-- **Pp/Ppk, not Cp/Cpk:** the calculations use overall sample standard deviation. The pooled baseline mixes machines and is not a demonstrated stable normal process. Treat these indices as descriptive comparisons, not process qualification. See [Minitab's definition](https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/capability-analysis/how-to/capability-sixpack/normal-capability-sixpack/interpret-the-results/all-statistics-and-graphs/overall-capability/).
-- **GRR is percent study variation:** 9.13% is a standard-deviation ratio, equivalent to about 0.83% variance contribution. It depends on the selected part spread and does not establish accuracy, bias, linearity or per-machine adequacy.
-- **FPY follows `Inspection_Result`:** the generator combines diameter failures and assigned categorical defects. It does not include a separate length-limit failure check. “Surface finish” is a simulated defect category, not measured Ra.
-- **SPC is instructional:** dates are synthetic day-level assignments. Sorting by date and part ID does not establish actual within-day production order, and the pooled I-MR chart is not a deployment-ready control scheme.
-
-The [control plan](reports/control_plan.md) defines proposed CTQs, methods, sampling and reaction plans. The [preliminary PFMEA](reports/pfmea.md) translates the modeled failure modes into proposed prevention and detection actions. Neither represents a production-approved control document.
-
-### 2. Real-data companion: SECOM
-
-The [SECOM notebook](secom_analysis.ipynb) examines **1,567 runs and 590 sensors**, including **104 failures**. It addresses a different problem: what can be learned when sensor identities, units and engineering specifications are unavailable?
-
-- **41,951 missing values** (4.54%); every run has at least one missing sensor value.
-- **116 constant sensors** and **6 additional near-constant sensors** identified.
-- **54 possible step-change candidates** flagged for engineering review, not labeled as confirmed recalibrations.
-- Six exploratory sensors examined with control charts and class-weighted logistic regression.
-
-| Exploratory model result | Value |
-|---|---:|
-| Balanced accuracy | 0.7575 |
-| ROC-AUC | 0.7708 |
-| Average precision (PR summary) | 0.1978 |
-| Failed test runs detected | 19 of 26 |
-| Escape rate | 26.92% |
-| False-reject rate | 21.58% |
-
-**Validation limitation:** sensor selection used labels from the full dataset before the split. Although imputation and scaling are fit on training data only, feature-selection leakage means the scores above are not unbiased holdout estimates. A stronger next step is feature selection inside training folds plus a chronological holdout. Control limits are exploratory and do not establish a stable baseline. No engineering specifications are supplied, so capability indices are not applicable.
-
-[Read the full SECOM data-integrity report](reports/secom_data_integrity.md).
-
-### 3. Optional drawing extension
-
-[![Onshape engineering drawing of a 20 mm diameter, 50 mm long shaft with cross-hole, datum references, geometric tolerances, surface-finish callout and title block.](reports/precision_machined_shaft_drawing.png)](reports/precision_machined_shaft_drawing.pdf)
-
-[Open the full-resolution drawing](reports/precision_machined_shaft_drawing.png) · [Download the vector PDF](reports/precision_machined_shaft_drawing.pdf)
-
-The Onshape drawing connects the analysis to a physical-part specification exercise: shaft dimensions, a through cross-hole, datum references, positional and cylindricity controls, surface finish and a completed title block. It is **instructional, not released for manufacture**. The cross-hole/GD&T features are not measured in the production dataset. Assembly tolerance stacks and Monte Carlo assembly analysis are not included.
-
-## Reproduce the work
-
-Python 3.12 was used for release verification. From the repository root:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-jupyter lab
-```
-
-On Windows, activate with `.venv\Scripts\activate` instead. Open either notebook and run all cells in order. Data is already included, so regeneration is optional.
-
-```bash
-# Optional: overwrites the two synthetic CSV files using fixed seeds.
-python generate_data.py
-
-# Rebuild the static dashboard image and its metrics from manufacturing.csv.
-python scripts/build_dashboard_preview.py
-```
-
-The Excel workbook is a curated baseline snapshot, not a live CSV connection. Regenerating data or the PNG does not automatically refresh its supporting tables. The notebook is the analytical source of truth.
-
-## Repository guide
-
-| File or folder | Purpose |
+| Result | Interpretation |
 |---|---|
-| [quality_analysis.ipynb](quality_analysis.ipynb) | Executed machining study, figures and modeled comparison |
-| [secom_analysis.ipynb](secom_analysis.ipynb) | Executed real-data companion |
-| [generate_data.py](generate_data.py) / [data/](data/) | Seeded simulation and synthetic observations |
-| [dashboard/](dashboard/) | Excel dashboard, PNG companion and numeric summary |
-| [reports/control_plan.md](reports/control_plan.md) | Proposed monitoring and reaction plan |
-| [reports/pfmea.md](reports/pfmea.md) | Preliminary process FMEA |
-| [reports/secom_data_integrity.md](reports/secom_data_integrity.md) | SECOM audit, model results and limitations |
-| [reports/release_verification.md](reports/release_verification.md) | Execution, data and packaging checks |
-| [PROJECT_OVERVIEW_AND_PROGRESS.md](PROJECT_OVERVIEW_AND_PROGRESS.md) | Original scope, completed work and optional next steps |
+| **1,067 of 20,000 parts fail inspection** | Corrected logic includes diameter, length and assigned defects. Inspection pass rate is 94.665%. |
+| **80 diameter failures, all on M3** | The model's +0.220 mm M3 offset moves diameter toward the upper specification. |
+| **407 surface-finish labels** | The largest assigned category is not addressed by diameter centering. This is not measured Ra. |
+| **75 net failures avoided in the paired seed-42 scenario** | Ideal centering removes diameter failures, but 992 total failures remain; pass rate becomes 95.040%. |
 
-## Data attribution
+Across 30 additional paired seeds, ideal centering avoids **45–80 failures per 20,000 parts**, averaging **63.9**. The tested residual offsets show where this model's benefit weakens. These are simulation ranges, not confidence bounds on a factory intervention.
 
-SECOM: McCann, M. & Johnston, A. (2008). *SECOM* [Dataset]. UCI Machine Learning Repository. [DOI: 10.24432/C54305](https://doi.org/10.24432/C54305). The [UCI dataset page](https://archive.ics.uci.edu/dataset/179/secom) lists the data under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Raw SECOM files are retained without modification. Synthetic machining data is generated by this project.
+## What the project demonstrates
 
----
+- **Inspection integrity:** found and corrected two length-out-of-spec parts previously labeled Pass, without changing their measurements.
+- **Variation analysis:** machine distributions, conditional regression effects and residual supplier spread, without claiming that pooled data establish stable capability.
+- **Measurement interpretation:** crossed ANOVA produces 9.13% study-variation GR&R and ndc 15 for the selected simulated parts. The broad part range prevents treating that result as blanket gage approval.
+- **Decision limits:** an ideal adjustment improves diameter conformance but leaves most inspection losses. Proposed controls identify what a real confirmation study would need.
 
-**Author:** Shrey Trivedi · Quality engineering, process analysis and manufacturing systems
+The [process/CTQ map](reports/process_and_characteristics.md), [proposed control plan](reports/control_plan.md) and [qualitative risk review](reports/pfmea.md) are design exercises, not implemented factory controls. No invented risk-priority scores or savings are used.
+
+## Optional drawing exercise
+
+The [Onshape shaft drawing](reports/precision_machined_shaft_drawing.pdf) shares the diameter and length specifications. Its cross-hole, geometric tolerances and Ra callout are **not evaluated by this dataset**. It is not released for manufacture.
+
+## Reproduce
+
+Use Python 3.12 and install `requirements.txt` in a virtual environment. From the project root:
+
+```bash
+python -m pip install -r requirements.txt
+python -m unittest discover -s tests -v
+python scripts/rebuild.py
+```
+
+The rebuild recalculates results, generates the presentation image, executes the notebook in a fresh kernel and exports readable HTML. Opening `reports/analysis.html` locally displays the report; GitHub may show the HTML source rather than render it.
+
+To regenerate the synthetic source CSVs first, run `python generate_data.py`. Fixed seeds preserve reproducibility. The Excel builder requires the bundled Codex spreadsheet runtime (`@oai/artifact-tool` 2.8.59); it is not a public npm install. In that runtime, rebuild Excel after the Python analysis:
+
+```bash
+python scripts/rebuild_excel_local.py
+```
+
+The Excel file includes all prepared observations and formula-driven baseline summaries with native charts. It is rebuilt from the CSV, not connected live to it. Scenario and GR&R results refresh during rebuild; editing measurement cells in Excel does not rerun the inspection model. Without the bundled runtime, the complete Python analysis, HTML report and dashboard PNG can still be rebuilt; the supplied Excel file can be opened normally.
+
+[Verification and changes](reports/release_verification.md) · [Interview explanation](reports/interview_notes.md)
+
+**Shrey Trivedi** — simulation, quality analysis and manufacturing decision support.

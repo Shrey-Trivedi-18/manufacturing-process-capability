@@ -1,22 +1,84 @@
 {
-  "parts": 20000,
-  "failed": 1065,
-  "fpy": 0.94675,
-  "ppm": 53250,
-  "overall_ppk": 0.791243376899598,
-  "machine_ppk": {
-    "M1": 2.9291191980774323,
-    "M2": 2.9475251388520443,
-    "M3": 0.7296503759044705,
-    "M4": 2.9890223197586665
+  "baseline": {
+    "parts": 20000,
+    "failures": 1067,
+    "passes": 18933,
+    "pass_rate": 0.94665,
+    "ppm": 53350.0,
+    "diameter_failures": 80,
+    "length_failures": 2
   },
-  "defect_counts": {
+  "centered": {
+    "parts": 20000,
+    "failures": 992,
+    "passes": 19008,
+    "pass_rate": 0.9504,
+    "ppm": 49600.0,
+    "diameter_failures": 0,
+    "length_failures": 2
+  },
+  "gage": {
+    "repeatability_var": 8.151092493831687e-05,
+    "operator_var": 1.3698632744817293e-05,
+    "interaction_var": 0.0,
+    "part_var": 0.011317424554901832,
+    "grr_var": 9.520955768313416e-05,
+    "grr_sd": 0.009757538505336998,
+    "percent_study_variation": 9.133712278184088,
+    "percent_tolerance": 9.757538505336997,
+    "ndc": 15
+  },
+  "primary_defects": {
     "Surface finish": 407,
     "Burr": 211,
     "Taper": 206,
     "Tool mark": 161,
-    "Oversize": 80
+    "Oversize": 80,
+    "Length": 2
   },
-  "date_start": "2026-01-05",
-  "date_end": "2026-03-05"
+  "source_sha256": "fea76bbbfa7da6c54e105fed5246f565e70c60fd86d19b7f8ff91603228ef7cf",
+  "scenario": "seed 42, paired ideal centering",
+  "sensitivity_seeds": 30,
+  "machines": [
+    {
+      "Machine": "M1",
+      "Parts": 5056,
+      "Failures": 234,
+      "Failure_Rate": 0.0462816456,
+      "Diameter_Failures": 0,
+      "Length_Failures": 0,
+      "Mean_Diameter_mm": 19.9871775635,
+      "SD_Diameter_mm": 0.0326807644
+    },
+    {
+      "Machine": "M2",
+      "Parts": 5016,
+      "Failures": 264,
+      "Failure_Rate": 0.0526315789,
+      "Diameter_Failures": 0,
+      "Length_Failures": 0,
+      "Mean_Diameter_mm": 20.0026931616,
+      "SD_Diameter_mm": 0.0336221999
+    },
+    {
+      "Machine": "M3",
+      "Parts": 5052,
+      "Failures": 332,
+      "Failure_Rate": 0.0657165479,
+      "Diameter_Failures": 80,
+      "Length_Failures": 0,
+      "Mean_Diameter_mm": 20.2226246695,
+      "SD_Diameter_mm": 0.0353481307
+    },
+    {
+      "Machine": "M4",
+      "Parts": 4876,
+      "Failures": 237,
+      "Failure_Rate": 0.0486054143,
+      "Diameter_Failures": 0,
+      "Length_Failures": 2,
+      "Mean_Diameter_mm": 20.012445673,
+      "SD_Diameter_mm": 0.0320678242
+    }
+  ]
 }

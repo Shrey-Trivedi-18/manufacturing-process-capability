@@ -1,20 +1,13 @@
-# Preliminary PFMEA
+# Qualitative process-risk review
 
-This preliminary PFMEA is based on the simulated precision-machining study. Severity (S), occurrence (O), and detection (D) ratings use a 1–10 qualitative scale for prioritization within this project. RPN = S × O × D. The ratings are not production-validated values and should be reviewed by a cross-functional team before use.
+This replaces the earlier numerically scored illustrative PFMEA. No production-validated severity, occurrence or detection ratings are available, so no RPN, Action Priority or standards-compliance claim is made. This is an unscored planning exercise linked to the process/CTQ map, not a completed standards-based PFMEA.
 
-| Process step / characteristic | Failure mode | Effect | Potential cause | Current control | S | O | D | RPN | Recommended action |
-|---|---|---|---|---|---:|---:|---:|---:|---|
-| M3 turning — outer diameter | Diameter oversize | Part fails upper diameter specification; possible assembly interference | M3 center offset is modeled high at approximately 20.22 mm | Micrometer sampling; I-MR monitoring; final inspection | 9 | 7 | 5 | 315 | Verify M3 offset at start-up and after warm-up; re-center the process; quarantine parts since the last acceptable check |
-| M3 turning — thermal behavior | Diameter drifts upward with temperature | Intermittent dimensional defects as the machine warms or ambient temperature changes | M3 has the strongest modeled temperature sensitivity | Temperature logging; diameter trend review | 8 | 6 | 6 | 288 | Establish a stable temperature baseline; add a temperature-linked reaction rule; investigate offset compensation |
-| Measurement and inspection | Nonconforming diameter is not detected | Defective part escapes to the next operation or customer | Sampling interval or measurement-system variation masks the condition | Gage R&R; periodic diameter checks | 9 | 4 | 6 | 216 | Maintain %GRR below 10%; review sampling after SPC signals; verify gage before adjusting the process |
-| M3 process control | M3 signal is not acted upon promptly | Additional parts are produced after the process shifts | Reaction plan does not connect chart signals to containment and restart approval | I-MR chart and inspection records | 8 | 5 | 5 | 200 | Define stop, quarantine, correction, and recheck responsibilities in the control plan |
-| Incoming material | Higher dimensional variation from Supplier B | Increased spread and reduced dimensional margin | Supplier B has higher modeled incoming-stock variation | Supplier documentation; incoming dimensional sampling | 7 | 5 | 6 | 210 | Track supplier-specific variation; increase sampling or initiate supplier corrective action when limits are exceeded |
-| Turning / finishing — surface finish | Surface-finish defect | Cosmetic or functional surface requirement is not met | Shift C has a higher modeled surface-finish defect rate; tooling, coolant, or handling may contribute | 100% visual inspection | 6 | 6 | 3 | 108 | Review Shift C conditions, tooling, coolant, and handling; trend defects by shift |
-| Deburring | Burr remains on part | Fit, handling, or downstream assembly problem | Tool wear or ineffective deburring method | Visual inspection and touch check | 7 | 4 | 3 | 84 | Define burr acceptance standard; monitor tool condition and inspect parts after tool changes |
-| Turning geometry | Taper is present | Poor fit or dimensional nonconformance | Tool alignment, workholding, or tool wear | Visual and dimensional inspection | 7 | 4 | 5 | 140 | Add a periodic taper check; inspect alignment and tool wear when taper signals increase |
-| Tooling / handling | Tool mark is present | Surface damage or cosmetic rejection | Tool condition, chip evacuation, or handling contact | Visual inspection | 5 | 4 | 3 | 60 | Review tool-life limits and handling practice; record defect location and timing |
-| Measurement system | Measurement bias or repeatability is excessive | Capability and acceptance decisions are unreliable | Operator bias or gage repeatability noise | Crossed Gage R&R; calibration records | 8 | 3 | 4 | 96 | Repeat MSA after gage or operator changes; investigate bias and retrain operators if needed |
+| IDs | Potential failure / effect | Evidence versus assumption | Proposed action / confirmation |
+|---|---|---|---|
+| D01 | High diameter may fail fit requirements | M3 offset and thermal sensitivity are programmed; actual fit consequences are not measured | Verify setup/measurement, compare independent confirmation runs, assess adjustment drift and costs |
+| L01 / C01 | Length violation escapes final classification | Two generated parts were demonstrably mislabeled under the original logic | Independent length flag, boundary tests, final-disposition reconciliation |
+| S01 / B01 / T01 / M01 | Surface or geometry defect is accepted or unnecessarily rejected | Labels are generated, not repeat inspection outcomes; causal mechanisms are unobserved | Define acceptance references, collect repeat judgments and objective measurements before choosing controls |
+| G01 | Measurement noise masks within-machine change | Global GR&R part range makes the headline ratio look favorable; physical measurement system unknown | Evaluate range appropriate to purpose and verify physical measurement behavior |
+| C01 | Dashboard reports stale or inconsistent results | Earlier workbook had hardcoded statistical inputs without a rebuild path | Rebuild from preserved inputs, record source hash and test totals; no live-source claim |
 
-## Priority interpretation
-
-The highest modeled priorities are M3 diameter centering, M3 thermal response, and prompt reaction to dimensional signals. These priorities reflect the simulated evidence and should guide the Part 1 control plan; they do not establish a real production root cause.
+The order of rows is process-oriented, not a risk ranking. A real PFMEA would need cross-functional review, agreed rating criteria, owners, actions and closure evidence.

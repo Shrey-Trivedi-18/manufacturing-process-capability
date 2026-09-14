@@ -1,40 +1,46 @@
-# Release verification
+# Repair verification
 
-Verified September 5, 2026. This record describes reproducibility and presentation checks, not production qualification.
+September 14, 2026. This verifies a simulated analytical project, not production qualification.
 
-## Executed analyses
+## Changes from the original release
 
-| Notebook | Code cells | Execution errors | Fresh-kernel run |
-|---|---:|---:|---:|
-| `quality_analysis.ipynb` | 24 | 0 | 4.6 seconds |
-| `secom_analysis.ipynb` | 11 | 0 | 2.6 seconds |
+- Preserved the original release separately and removed the unrelated real-data companion from the active machining project.
+- Added independent diameter/length flags and included missed length failures in final disposition. Generated measurements and random draws are unchanged.
+- Removed pooled capability headlines and the pseudo-chronological pooled control chart.
+- Replaced blanket measurement approval with purpose-specific interpretation of the simulated GR&R calculation.
+- Added paired sensitivity across 30 seeds and five residual-offset assumptions.
+- Rebuilt the dashboard from prepared observations with native charts and tested formula dependencies.
+- Replaced invented numeric PFMEA priorities with an unscored process-risk review and linked proposed controls.
+- Shortened the README, added a readable HTML report, and added executable tests and a CI workflow definition.
 
-Both notebooks were run sequentially from the repository root with a separate fresh Python kernel. Outputs include five machining figures and one multi-panel SECOM figure. The machining notebook no longer installs packages during execution. Runtime is machine-dependent; these timings are from the final run with cached imports.
+## Verified results
 
-Test environment: Python 3.12.14, NumPy 2.3.5, pandas 2.2.3, Matplotlib 3.11.1, SciPy 1.18.1, statsmodels 0.15.0, scikit-learn 1.9.0, nbclient 0.11.0 and ipykernel 7.3.0.
+| Measure | Corrected baseline | Ideal centering, paired seed 42 |
+|---|---:|---:|
+| Parts | 20,000 | 20,000 |
+| Failed parts | 1,067 | 992 |
+| Passing parts | 18,933 | 19,008 |
+| Inspection pass rate | 94.665% | 95.040% |
+| PPM defective | 53,350 | 49,600 |
+| Diameter violations | 80 | 0 |
+| Length violations | 2 | 2 |
 
-## Numerical reconciliation
+The baseline has 407 surface-finish, 211 burr, 206 taper, 161 tool-mark, 80 oversize and two primary length labels. The primary labels sum to 1,067 failures. The two repaired records are P16351 and P16539.
 
-- Baseline: 20,000 parts; 1,065 inspection failures; 18,935 passes; FPY 94.675%; 53,250 defective parts per million.
-- Diameter Ppk: overall 0.791243; M1 2.929119; M2 2.947525; M3 0.729650; M4 2.989022.
-- Assigned defects: surface finish 407, burr 211, taper 206, tool mark 161, oversize 80, undersize 0. Sum = 1,065.
-- Centered scenario: 990 failures; FPY 95.050%; 49,500 defective parts per million; overall Ppk 2.874321; M3 Ppk 2.804253.
-- SECOM confusion matrix reproduced as `[[287, 79], [7, 19]]`. Balanced accuracy 0.757461, ROC-AUC 0.770807 and average precision 0.197778.
+GR&R arithmetic reproduces 9.1337% study variation, 9.7575% tolerance and ndc 15. These are conditional simulation outputs, not measurement-system approval.
 
-## File and presentation checks
+## Checks performed
 
-- The baseline generator reproduces the committed production observations within CSV precision.
-- The two source CSVs, three raw SECOM files and original drawing exports are unchanged.
-- Dashboard source numeric cells and existing formulas are preserved. Three native, range-backed charts are present; chart positions, date-label spacing and percentage-axis formatting were reviewed.
-- The PNG companion recomputes its summary directly from the production CSV. It is not an Excel screenshot and does not automatically refresh the workbook.
-- The README links to both notebooks, the dashboard, drawing and reports. Local Markdown links resolve.
-- `pfema.md` was renamed to `pfmea.md`; the progress record was updated.
-- OS metadata, the virtual environment, notebook checkpoints and learning-scratchpad previews are excluded from version control.
+- Eighteen Python tests passed: boundary behavior, nonfinite inputs, classification, expected counts, unique identifiers, deterministic regeneration, paired scenarios and GR&R structure.
+- A fresh notebook kernel executed the repaired analytical notebook successfully; HTML was exported from those results.
+- Workbook totals were reconciled to the CSV-derived summary. A reversible in-memory row-flag change altered the dashboard failure total correctly, then restored it. No spreadsheet-engine formula error was reported.
+- Both native charts and the dashboard/detail/data views were rendered for visual inspection. The static PNG is a separately generated presentation companion, not an Excel screenshot.
+- Saved-file and local-link checks are provided in `scripts/verify_release.py`. The CSV fingerprint is recorded in `dashboard/metrics.json`.
 
-## Interpretation corrections and remaining limitations
+Test environment: Python 3.12, NumPy 2.3.5, pandas 2.2.3, Matplotlib 3.11.1, SciPy 1.18.1, statsmodels 0.15.0, nbformat 5.11.1, nbclient 0.11.0. Excel creation/verification used bundled artifact-tool 2.8.59.
 
-The machining indices are now labeled Pp/Ppk because they use overall sample standard deviation. No numerical capability formula was changed. The mixed-machine process and synthetic daily ordering do not establish stable, normal, machine-specific capability.
+## Remaining boundaries
 
-The SECOM label-guided feature selection precedes the train/test split. The scores therefore remain exploratory and potentially optimistic despite train-only imputation and scaling. No new unbiased validation experiment is claimed.
+The CI workflow has been authored but has not run on the remote service; no passing-badge claim is made. Excel was checked in the generating engine and saved package, not manually recalculated in the Microsoft Excel application. Its builder requires the bundled spreadsheet runtime rather than a publicly installable npm dependency. Python analysis, HTML and PNG rebuilding do not require that runtime.
 
-The drawing is an instructional extension, not a manufacturing release. Its remaining template angular-tolerance field is unspecified; checked/approved fields are not signed. The depicted material, roughness and GD&T have not been validated against a real assembly or measured production parts. Worst-case/RSS stacks and Monte Carlo assembly analysis remain optional future work.
+This repair does not turn simulated data into factory evidence. There are no real savings, physical MSA results, validated risk ratings or deployed controls. The optional drawing is unchanged and remains an instructional specification exercise. No new code license was selected or granted as part of this repair.

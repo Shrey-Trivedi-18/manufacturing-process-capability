@@ -1,0 +1,7 @@
+{
+  "name": "machining-quality-study",
+  "private": true,
+  "type": "module",
+  "scripts": {"dashboard": "node scripts/build_dashboard.mjs"},
+  "description": "Excel builder requires the bundled Codex artifact-tool runtime (tested with 2.8.59), not a public npm dependency."
+}

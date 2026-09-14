@@ -65,6 +65,7 @@ def generate_production_data(
     n_parts: int = 20_000,
     seed: int = 42,
     process_centered: bool = False,
+    m3_offset_mm: float | None = None,
 ) -> pd.DataFrame:
     """Generate one row per manufactured and inspected part."""
 
@@ -87,6 +88,8 @@ def generate_production_data(
     machine_offset = {"M1": -0.015, "M2": 0.000, "M3": 0.220, "M4": 0.010}
     if process_centered:
         machine_offset["M3"] = 0.000
+    if m3_offset_mm is not None:
+        machine_offset["M3"] = float(m3_offset_mm)
 
     # M3 is intentionally more temperature-sensitive than the other machines.
     temperature_slope = {"M1": 0.0015, "M2": 0.0020, "M3": 0.0080, "M4": 0.0018}
@@ -113,6 +116,11 @@ def generate_production_data(
     diameter = _measurement(true_diameter, operators, rng)
     length = _measurement(true_length, operators, rng)
     defect_type = _defect_type(diameter, shifts, rng)
+    # Preserve all previous random draws and primary-category priorities.
+    # Length is independently evaluated, including when another category exists.
+    diameter_failure = (diameter < LSL_DIAMETER) | (diameter > USL_DIAMETER)
+    length_failure = (length < LSL_LENGTH) | (length > USL_LENGTH)
+    defect_type[(defect_type == "None") & length_failure] = "Length"
 
     cycle_time = (
         42.0
@@ -140,6 +148,8 @@ def generate_production_data(
             "Temperature_C": temperature,
             "Cycle_Time_sec": cycle_time,
             "Defect_Type": defect_type,
+            "Diameter_Fail": diameter_failure,
+            "Length_Fail": length_failure,
             "Inspection_Result": np.where(defect_type == "None", "Pass", "Fail"),
         }
     )

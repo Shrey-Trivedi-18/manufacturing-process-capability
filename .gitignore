@@ -6,6 +6,8 @@ __pycache__/
 .jupyter/
 node_modules/
 secom.zip
+*.inspect.ndjson
+results/workbook_rows.json
 # Learning scratchpad: the curated dashboard is under dashboard/.
 data/gage_rr_progress.xlsx
 data/*preview*
