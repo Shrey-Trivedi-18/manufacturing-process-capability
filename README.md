@@ -90,7 +90,7 @@ python scripts/rebuild.py
 
 The rebuild recalculates results, generates the presentation image, executes the notebook in a fresh kernel and exports readable HTML. Opening `reports/analysis.html` locally displays the report; GitHub may show the HTML source rather than render it.
 
-To regenerate the synthetic source CSVs first, run `python generate_data.py`. Fixed seeds preserve reproducibility. The Excel builder requires the bundled Codex spreadsheet runtime (`@oai/artifact-tool` 2.8.59); it is not a public npm install. In that runtime, rebuild Excel after the Python analysis:
+To regenerate the synthetic source CSVs first, run `python generate_data.py`. Fixed seeds preserve reproducibility. The Excel builder requires the bundled spreadsheet runtime (`@oai/artifact-tool` 2.8.59); it is not a public npm install. In that runtime, rebuild Excel after the Python analysis:
 
 ```bash
 python scripts/rebuild_excel_local.py
