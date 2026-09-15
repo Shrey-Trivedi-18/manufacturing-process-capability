@@ -1,0 +1,8 @@
+Record,Characteristic,Specification,Simulated_Value,Unit,Result
+FP-001,D01,19.70 to 20.30,20.014,mm,Pass
+FP-001,L01,49.50 to 50.50,50.06,mm,Pass
+FP-001,H01,4.95 to 5.05,5.02,mm,Pass
+FP-001,E01,<=0.05,0.018,mm,Pass
+FP-001,F01,<=0.10,0.041,mm,Pass
+FP-001,S01,<=3.2,2.4,um,Pass
+FP-001,H02,position <=0.17 at size5.02,0.09,mm,Pass

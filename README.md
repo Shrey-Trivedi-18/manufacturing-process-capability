@@ -1,4 +1,44 @@
-# Machine Centering and Inspection Yield
+# Manufacturing Quality Engineering & Process Capability Study
+
+A connected **simulated quality-engineering case study** covering measurement interpretation, inspection integrity, ordered SPC, conditional capability analysis, corrective action and drawing-based inspection planning.
+
+**Start here:** [15-page case-study packet](quality_documents/quality_engineering_case_study.pdf) · [Learning drawing](drawing_and_inspection/gdandt_learning_drawing.pdf) · [Inspection plan](drawing_and_inspection/inspection_plan.md)
+
+![Frozen reference limits detect the programmed setup shift; the later verification trend alarm is retained](phase2_spc_capability/charts/01_xbar_r.png)
+
+## The connected case
+
+| Workstream | Evidence | Status |
+|---|---|---|
+| Phase 1: inspection and MSA | 20,000 part records, 90 GR&R readings, corrected inspection logic, centering sensitivity, Excel dashboard | Preserved below |
+| Phase 2: SPC and capability | 700 new ordered observations, 140 subgroups of five, X-bar/R, selected Nelson-style rules, Cp/Cpk/Pp/Ppk and diagnostics | [Executed analysis](phase2_spc_capability/spc_analysis.ipynb); [methods and data](phase2_spc_capability/README.md) |
+| NCR / corrective action | 100-part quarantined challenge lot; 22 diameter rejects; correction followed by a separate 200-part verification | [CA-001](quality_documents/corrective_action.md): effectiveness review open because subgroup 122 triggers T3 |
+| GD&T / inspection | Revised datum scheme, seven linked characteristics, first-piece and hole-position challenge records | [Learning addendum](drawing_and_inspection/gdandt_learning_drawing.pdf); native Onshape sheet remains unchanged |
+| Risk / control linkage | Drawing ID -> failure mode -> control -> inspection -> reaction | [Traceability worksheet](quality_documents/traceability.md), qualitative and unscored |
+| Minitab | Import-ready inputs, matching settings and Python reference values | [Execution pending sign-in/license](minitab/README.md); no Minitab results or skill claim yet |
+
+Phase 2 detects the programmed setup shift at subgroup 41. Reference and rebaseline have no selected-rule signals. The later verification has zero diameter rejects but a six-point trend alert, so its capability estimates remain provisional. We retain that complication rather than deleting observations or searching for a cleaner seed.
+
+### Visual evidence
+
+![Quality-document traceability](quality_documents/traceability_flow.png)
+
+[Diameter distributions](phase2_spc_capability/charts/02_diameter_distributions.png) · [Normality diagnostics](phase2_spc_capability/charts/03_normality.png) · [Capability comparison](phase2_spc_capability/charts/04_capability.png) · [Fishbone](quality_documents/fishbone.png)
+
+### Rebuild the extension
+
+After installing `requirements.txt`, run:
+
+```bash
+python scripts/build_quality_package.py
+python scripts/build_spc_notebook.py
+python -m unittest discover -s tests -v
+python scripts/verify_extension.py
+```
+
+The inspection values and process causes are authored teaching examples. No physical shop work, CMM inspection, formal AS9102 approval or completed 8D is claimed. The [scope and remaining dependencies](quality_documents/scope_status.md) distinguish finished artifacts from software access and physical validation.
+
+## Phase 1 - Machine Centering and Inspection Yield
 
 A simulated machining-quality study asking: **how much does correcting one machine's diameter offset help when most inspection failures have other causes?**
 
