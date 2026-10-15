@@ -10,7 +10,7 @@ A connected **simulated quality-engineering case study** covering measurement in
 
 | Workstream | Evidence | Status |
 |---|---|---|
-| Phase 1: inspection and MSA | 20,000 part records, 90 GR&R readings, corrected inspection logic, centering sensitivity, Excel dashboard | Preserved below |
+| Phase 1: inspection and MSA | 20,000 part records, 90 GR&R readings, corrected inspection logic, centering sensitivity, Excel and Power BI dashboards | Preserved below |
 | Phase 2: SPC and capability | 700 new ordered observations, 140 subgroups of five, X-bar/R, selected Nelson-style rules, Cp/Cpk/Pp/Ppk and diagnostics | [Executed analysis](phase2_spc_capability/spc_analysis.ipynb); [methods and data](phase2_spc_capability/README.md) |
 | NCR / corrective action | 100-part quarantined challenge lot; 22 diameter rejects; correction followed by a separate 200-part verification | [CA-001](quality_documents/corrective_action.md): effectiveness review open because subgroup 122 triggers T3 |
 | GD&T / inspection | Revised datum scheme, seven linked characteristics, first-piece and hole-position challenge records | [Learning addendum](drawing_and_inspection/gdandt_learning_drawing.pdf); native Onshape sheet remains unchanged |
@@ -49,6 +49,16 @@ I generated 20,000 part records and a 90-reading crossed Gage R&R dataset, check
 [Read the analysis](reports/analysis.html) · [Executed notebook](quality_analysis.ipynb) · [Excel dashboard](dashboard/quality_dashboard.xlsx) · [Methods and assumptions](reports/methods.md)
 
 ### Portfolio visuals
+
+#### Interactive Power BI report
+
+![Power BI report showing simulated shaft-line inspection yield, failure rates, primary failure categories, mean diameter and machine, shift and supplier slicers](dashboard/power_bi_preview.png)
+
+[Download the Power BI report](dashboard/Shaft%20Line%20Quality.pbix) · [Power BI usage notes](dashboard/POWER_BI.md)
+
+The native Power BI Desktop report presents the 20,000-part Phase 1 baseline: **20,000 parts, 1,067 inspection failures and 94.67% pass rate**, with interactive machine, shift and supplier slicers. The mean-diameter chart includes **19.7 mm and 20.3 mm specification lines**; these are dimensional acceptance limits, not statistical control limits. Machine means do not describe the full spread of individual measurements or establish process capability. The primary-failure chart assigns one category per failed part, rather than counting every possible defect on a part.
+
+The report is supplied as a downloadable `.pbix` file and a static preview, not a publicly hosted Power BI service report. All data remain explicitly simulated.
 
 - [Machine-to-machine variation](dashboard/artifacts/machine_variation.png)
 - [Primary failure-mode Pareto](dashboard/artifacts/defect_pareto.png)
