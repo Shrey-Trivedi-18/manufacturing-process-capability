@@ -1,0 +1,7 @@
+IChart C12;
+Mu 4.5;
+Sigma 10;
+Test 3;
+DefTest 3 6;
+Title "Diagnostic Only - Eight Increasing Values";
+Session.

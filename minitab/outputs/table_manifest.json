@@ -75,5 +75,40 @@
     "table": "Exp. Overall Performance",
     "file": "04_table_6.csv",
     "executed": "2026-10-17T16:33:03.469Z"
+  },
+  {
+    "command": 11,
+    "title": "I Chart of Diagnostic_Trend",
+    "table": "Test Results for I Chart of Diagnostic_Trend",
+    "file": "11_table_1.csv",
+    "executed": "2026-10-17T16:51:02.030Z"
+  },
+  {
+    "command": 12,
+    "title": "I Chart of Six_Increasing, ..., Reversal_Breaks_Trend",
+    "table": "Test Results for I Chart of Six_Increasing",
+    "file": "12_table_1.csv",
+    "executed": "2026-10-17T16:51:30.772Z"
+  },
+  {
+    "command": 12,
+    "title": "I Chart of Six_Increasing, ..., Reversal_Breaks_Trend",
+    "table": "Test Results for I Chart of Six_Decreasing",
+    "file": "12_table_2.csv",
+    "executed": "2026-10-17T16:51:30.772Z"
+  },
+  {
+    "command": 13,
+    "title": "Xbar-R Chart of Diameter_mm",
+    "table": "Test Results for Xbar Chart of Diameter_mm",
+    "file": "13_table_1.csv",
+    "executed": "2026-10-17T16:52:57.372Z"
+  },
+  {
+    "command": 15,
+    "title": "Xbar-R Chart of Diameter_mm",
+    "table": "Test Results for Xbar Chart of Diameter_mm by Control_Stream",
+    "file": "15_table_1.csv",
+    "executed": "2026-10-17T16:54:43.438Z"
   }
 ]

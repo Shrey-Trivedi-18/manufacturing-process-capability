@@ -1,0 +1,7 @@
+IChart C15-C17;
+Mu 2.5;
+Sigma 10;
+Test 3;
+DefTest 3 5;
+Title "Diagnostic Negative Controls - No Trend Alarm Expected";
+Session.

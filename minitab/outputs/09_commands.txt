@@ -1,0 +1,9 @@
+XRChart 'Diameter_mm' 'Subgroup';
+Include;
+Rows 501:700;
+Mu 19.999089231622072;
+Sigma 0.045838205914180134;
+Rbar;
+Test 3;
+Title "Verification - Default Test 3 Only";
+Session.

@@ -1,0 +1,18 @@
+XRChart 'Diameter_mm' 'Subgroup';
+Mu 19.999044996679437 19.999089231622072 19.999089231622072;
+Sigma 0.04712155855739895 0.045838205914180134 0.045838205914180134;
+Rbar;
+HProcess 'Control_Stream';
+Test 1 2 3;
+DefTest 1 3 2 9 3 5 4 14 5 2 6 4 7 15 8 8;
+PPoints C20 C21;
+CenLine C22 C23;
+ConLimits C24 C25 C26 C27;
+Location C28;
+Variation C29;
+Stages C30;
+Title "Shaft SPC - Matched Run Boundaries and Six-Point Trends";
+SubTitle "700 unchanged observations | streams: 1-60, 61-100, 101-140";
+Footnote "Minitab K=5 calibration: six monotonic points; see saved diagnostic controls.";
+Session;
+IGraph.

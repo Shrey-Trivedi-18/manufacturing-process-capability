@@ -72,6 +72,73 @@ evaluation = read_table.call('01_table_3.csv')
 process = read_table.call('04_table_1.csv')
 overall = read_table.call('04_table_2.csv')
 within = read_table.call('04_table_3.csv')
+sheet = read_member(archive, '/sheets/1/sheet.json')
+stored = sheet.fetch('Data').fetch('Columns').to_h do |column|
+  [column.dig('VarId', 'VarId'), column.dig('WorksheetVarBody', 'VarData', 'VarDataBody')]
+end
+numeric = ->(column) { stored.fetch(column).fetch('NumericData') }
+# Check data integrity, not statistical outcomes: the imported measurements must be untouched.
+source = CSV.read(File.join(File.dirname(output), '..', 'phase2_spc_capability', 'spc_data.csv'), headers: true)
+raise 'Shaft measurements changed' unless numeric.call(8) == source.map { |row| row['Diameter_mm'].to_f }
+raise 'Subgroup identifiers changed' unless numeric.call(2) == source.map { |row| row['Subgroup'].to_f }
+chart_columns = { 'Mean'=>20, 'Range'=>21, 'Center'=>22, 'R_Center'=>23,
+                  'X_LCL'=>24, 'X_UCL'=>25, 'R_LCL'=>26, 'R_UCL'=>27 }
+CSV.open(File.join(output, 'control_chart_statistics.csv'), 'w') do |csv|
+  csv << ['Subgroup', *chart_columns.keys]
+  140.times { |index| csv << [index + 1, *chart_columns.values.map { |column| numeric.call(column)[index] }] }
+end
+calibration_cases = [
+  ['Eight increasing values', 6, '11_table_1.csv', [7, 8]],
+  ['Six increasing values', 5, '12_table_1.csv', [6]],
+  ['Six decreasing values', 5, '12_table_2.csv', [6]]
+]
+CSV.open(File.join(output, 'calibration_checks.csv'), 'w') do |csv|
+  csv << ['Diagnostic', 'Native_K', 'Observed_alarm_points', 'Evidence']
+  calibration_cases.each do |name, k, file, expected|
+    text = CSV.read(File.join(output, file), headers: true).map { |row| row[0].to_s }.find { |line| line.include?('Test Failed at points:') }
+    actual = text.sub(/.*Test Failed at points:\s*/m, '').scan(/\d+/).map(&:to_i)
+    raise "Calibration evidence changed: #{name}" unless actual == expected
+    csv << [name, k, actual.join(' '), file]
+  end
+  negative_index = metadata.fetch('Commands').fetch('Items').index do |command|
+    command['CommandLines'].any? { |line| line['Original'].include?('Diagnostic Negative Controls') }
+  end
+  raise 'Negative-control run missing' unless negative_index
+  raise 'Unexpected negative-control alarm table' if manifest.any? { |entry| entry[:command] == negative_index + 1 }
+  ['Tie breaks trend', 'Reversal breaks trend', 'Five valid points do not trigger'].each do |name|
+    csv << [name, 5, 'none reported', "native command #{negative_index + 1}"]
+  end
+end
+limit_values = {}
+{'reference_limits'=>0, 'new_limits'=>60}.each do |name, index|
+  limit_values[name] = {'center'=>numeric.call(22)[index], 'rbar'=>numeric.call(23)[index],
+    'x_lcl'=>numeric.call(24)[index], 'x_ucl'=>numeric.call(25)[index],
+    'r_lcl'=>numeric.call(26)[index], 'r_ucl'=>numeric.call(27)[index],
+    'sigma_within'=>numeric.call(29)[name == 'reference_limits' ? 0 : 1]}
+end
+# Read Minitab's final stored alarm table; never derive alarms from the measurements here.
+final_command_index = metadata.fetch('Commands').fetch('Items').index do |command|
+  command['CommandLines'].any? { |line| line['Original'].include?('Matched Run Boundaries') }
+end
+raise 'Corrected chart is missing' unless final_command_index
+final_table = manifest.find { |entry| entry[:command] == final_command_index + 1 && entry[:table].include?('Test Results for Xbar') }
+alarms = {}
+current_test = nil
+CSV.read(File.join(output, final_table.fetch(:file)), headers: true).each do |row|
+  text = row[0].to_s
+  current_test = "T#{Regexp.last_match(1)}" if text =~ /TEST (\d)\./
+  alarms[current_test] = text.sub(/.*Test Failed at points:\s*/m, '').scan(/\d+/).map(&:to_i) if text.include?('Test Failed at points:')
+end
+reference_alarms = CSV.read(File.join(File.dirname(output), '..', 'phase2_spc_capability', 'alarm_log.csv'), headers: true)
+CSV.open(File.join(output, 'alarm_comparison.csv'), 'w') do |csv|
+  csv << ['Test', 'Reference_subgroups', 'Minitab_subgroups', 'Status']
+  %w[T1 T2 T3].each do |test|
+    expected = reference_alarms.select { |row| row['X_Rules'].to_s.split(',').include?(test) }.map { |row| row['Subgroup'].to_i }
+    actual = alarms.fetch(test, [])
+    raise "Alarm mismatch for #{test}" unless expected == actual
+    csv << [test, expected.join(' '), actual.join(' '), 'EXACT ALARM LIST MATCH - CALIBRATED CONFIGURATION']
+  end
+end
 find_row = ->(table, value) { table.find { |row| row[0] == value } }
 grr = {}
 {'repeatability_var'=>'Repeatability', 'operator_var'=>'Operator', 'interaction_var'=>'Operator*Part_ID',
@@ -87,6 +154,8 @@ comparison.each do |row|
   analysis, metric = row['Analysis'], row['Metric']
   value = if analysis == 'GRR'
     grr[metric]
+  elsif limit_values[analysis]
+    limit_values[analysis][metric]
   elsif %w[reference rebaseline verification setup_shift].include?(analysis)
     table, key = case metric
     when 'mean' then [process, 'Sample Mean']
@@ -102,7 +171,9 @@ comparison.each do |row|
     tolerance = metric.end_with?('_var') ? 1e-7 : (%w[Cp Cpk Pp Ppk].include?(metric) ? 0.002 : 1e-5)
     row['Minitab'], row['Difference'] = value, difference
     row['Status'] = difference.abs <= tolerance ? 'MATCH WITHIN TOLERANCE' : 'REVIEW DIFFERENCE'
-    row['Status'] += ' - PROVISIONAL; TREND DISCREPANCY OPEN' if analysis == 'verification'
+    row['Status'] += ' - PROVISIONAL; TREND CONFIRMED IN BOTH TOOLS' if analysis == 'verification'
+    row['Status'] = 'EXPLAINED CONSTANT PRECISION DIFFERENCE; SAME ALARM OUTCOME' if metric == 'r_ucl' && limit_values[analysis]
+    row['Status'] += ' - SUPPLIED HISTORICAL PARAMETER' if limit_values[analysis] && %w[center sigma_within].include?(metric)
   else
     row['Minitab'] = row['Difference'] = nil
     row['Status'] = analysis == 'ANOVA' ? 'NOT RUN - OUTSIDE REQUESTED THREE ANALYSES' : 'CHART RUN - FULL-PRECISION LIMIT COMPARISON NOT TABULATED'

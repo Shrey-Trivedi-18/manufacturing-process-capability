@@ -1,0 +1,7 @@
+Diagnostic,Native_K,Observed_alarm_points,Evidence
+Eight increasing values,6,7 8,11_table_1.csv
+Six increasing values,5,6,12_table_1.csv
+Six decreasing values,5,6,12_table_2.csv
+Tie breaks trend,5,none reported,native command 14
+Reversal breaks trend,5,none reported,native command 14
+Five valid points do not trigger,5,none reported,native command 14
