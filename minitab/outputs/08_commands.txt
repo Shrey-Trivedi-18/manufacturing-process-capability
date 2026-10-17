@@ -1,0 +1,9 @@
+XRChart 'Diameter_mm' 'Subgroup';
+Include;
+Rows 301:500;
+Rbar;
+Test 1 2 3;
+DefTest 1 3 2 9 3 6 4 14 5 2 6 4 7 15 8 8;
+Title "Rebaseline - Estimated Rbar Limits";
+Session;
+OutLabels.

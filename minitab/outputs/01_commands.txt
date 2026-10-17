@@ -1,0 +1,8 @@
+GAGERR;
+  PARTS 'Part_ID';
+  OPERS 'Operator';
+  RESPONSE 'Diameter_mm';
+  STUDYVAR 6;
+  TOLERANCE 0.6;
+  PVALUE 0.999999;
+  TITLE "Simulated Shaft Gage R&R - Full ANOVA Model".

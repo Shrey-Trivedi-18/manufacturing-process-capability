@@ -1,0 +1,16 @@
+MCAPA 'Diameter_mm';
+  SIZE 5;
+  BY 'Phase';
+  LSPEC 19.7;
+  USPEC 20.3;
+  RBAR;
+  AMR;
+    RSPAN 2;
+  UNBIASED;
+  OBIASED;
+  GHISTOGRAM;
+  GNORMAL;
+  TOLER 6;
+  WITHIN;
+  OVERALL;
+  CSTAT.

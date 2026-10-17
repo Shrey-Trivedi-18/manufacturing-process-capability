@@ -1,0 +1,6 @@
+""
+TEST 1. One point more than 3.00 standard deviations from center line.
+"Test Failed at points:  41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
+58, 59, 60"
+TEST 2. 9 points in a row on same side of center line.
+"Test Failed at points:  49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60"

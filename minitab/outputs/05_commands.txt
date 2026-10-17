@@ -1,0 +1,20 @@
+XRChart 'Diameter_mm' 'Subgroup';
+  Scale 2;
+    LDisplay 1 1 1 0;
+    HDisplay 1 0 0 0;
+  Scale 1;
+    LDisplay 1 1 1 0;
+    HDisplay 1 0 0 0;
+  Title "Verification - Frozen Rebaseline Limits";
+  SubTitle "200 simulated observations | original subgroups 101-140";
+  Footnote "Diagnostic comparison: selected tests 1, 2, 3.";
+  Include;
+    Rows 501:700;
+  Mu 19.999089231622072;
+  Sigma 0.045838205914180134;
+  Rbar;
+  Test 1 2 3;
+  DefTest 1 3 2 9 3 6 4 14 5 2 6 4 7 15 8 8;
+  Session;
+  OutLabels;
+  IGraph.

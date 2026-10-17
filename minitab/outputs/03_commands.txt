@@ -1,0 +1,19 @@
+XRChart 'Diameter_mm' 'Subgroup';
+  Scale 2;
+    LDisplay 1 1 1 0;
+    HDisplay 1 0 0 0;
+  Scale 1;
+    LDisplay 1 1 1 0;
+    HDisplay 1 0 0 0;
+  Title "Simulated Shaft Process - Frozen Historical Limits";
+  SubTitle "700 observations | subgroups of 5 | Xbar tests 1, 2, 3";
+  Footnote "Baseline limits for reference and shift; rebaseline limits frozen for verification.";
+  Mu 19.999044996679437 19.999044996679437 19.999089231622072 19.999089231622072;
+  Sigma 0.04712155855739895 0.04712155855739895 0.045838205914180134 0.045838205914180134;
+  Rbar;
+  Test 1 2 3;
+  DefTest 1 3 2 9 3 6 4 14 5 2 6 4 7 15 8 8;
+  HProcess 'Phase';
+  Session;
+  OutLabels;
+  IGraph.

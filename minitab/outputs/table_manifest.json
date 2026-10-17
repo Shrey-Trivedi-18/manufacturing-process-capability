@@ -1,0 +1,79 @@
+[
+  {
+    "command": 1,
+    "title": "Gage R&R Study - ANOVA Method",
+    "table": "Two-Way ANOVA Table With Interaction",
+    "file": "01_table_1.csv",
+    "executed": "2026-10-17T16:20:11.562Z"
+  },
+  {
+    "command": 1,
+    "title": "Gage R&R Study - ANOVA Method",
+    "table": "Variance Components",
+    "file": "01_table_2.csv",
+    "executed": "2026-10-17T16:20:11.562Z"
+  },
+  {
+    "command": 1,
+    "title": "Gage R&R Study - ANOVA Method",
+    "table": "Gage Evaluation",
+    "file": "01_table_3.csv",
+    "executed": "2026-10-17T16:20:11.562Z"
+  },
+  {
+    "command": 2,
+    "title": "Xbar-R Chart of Diameter_mm",
+    "table": "Test Results for Xbar Chart of Diameter_mm by Phase",
+    "file": "02_table_1.csv",
+    "executed": "2026-10-17T16:27:41.237Z"
+  },
+  {
+    "command": 3,
+    "title": "Xbar-R Chart of Diameter_mm",
+    "table": "Test Results for Xbar Chart of Diameter_mm by Phase",
+    "file": "03_table_1.csv",
+    "executed": "2026-10-17T16:29:39.799Z"
+  },
+  {
+    "command": 4,
+    "title": "Process Capability Report for Diameter_mm by Phase",
+    "table": "Process Data",
+    "file": "04_table_1.csv",
+    "executed": "2026-10-17T16:33:03.469Z"
+  },
+  {
+    "command": 4,
+    "title": "Process Capability Report for Diameter_mm by Phase",
+    "table": "Overall Capability",
+    "file": "04_table_2.csv",
+    "executed": "2026-10-17T16:33:03.469Z"
+  },
+  {
+    "command": 4,
+    "title": "Process Capability Report for Diameter_mm by Phase",
+    "table": "Potential (Within) Capability",
+    "file": "04_table_3.csv",
+    "executed": "2026-10-17T16:33:03.469Z"
+  },
+  {
+    "command": 4,
+    "title": "Process Capability Report for Diameter_mm by Phase",
+    "table": "Observed Performance",
+    "file": "04_table_4.csv",
+    "executed": "2026-10-17T16:33:03.469Z"
+  },
+  {
+    "command": 4,
+    "title": "Process Capability Report for Diameter_mm by Phase",
+    "table": "Exp. Within Performance",
+    "file": "04_table_5.csv",
+    "executed": "2026-10-17T16:33:03.469Z"
+  },
+  {
+    "command": 4,
+    "title": "Process Capability Report for Diameter_mm by Phase",
+    "table": "Exp. Overall Performance",
+    "file": "04_table_6.csv",
+    "executed": "2026-10-17T16:33:03.469Z"
+  }
+]

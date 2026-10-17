@@ -15,11 +15,15 @@ A connected **simulated quality-engineering case study** covering measurement in
 | NCR / corrective action | 100-part quarantined challenge lot; 22 diameter rejects; correction followed by a separate 200-part verification | [CA-001](quality_documents/corrective_action.md): effectiveness review open because subgroup 122 triggers T3 |
 | GD&T / inspection | Revised datum scheme, seven linked characteristics, first-piece and hole-position challenge records | [Learning addendum](drawing_and_inspection/gdandt_learning_drawing.pdf); native Onshape sheet remains unchanged |
 | Risk / control linkage | Drawing ID -> failure mode -> control -> inspection -> reaction | [Traceability worksheet](quality_documents/traceability.md), qualitative and unscored |
-| Minitab | Import-ready inputs, matching settings and Python reference values | [Execution pending sign-in/license](minitab/README.md); no Minitab results or skill claim yet |
+| Minitab reproduction | Actual crossed ANOVA GR&R, 700-observation X-bar/R and phase-separated normal capability; native project, screenshots and full-precision tables | [Executed in Minitab web on Oct 17, 2026](minitab/README.md); GR&R/capability agree, control-chart discrepancies documented |
 
 Phase 2 detects the programmed setup shift at subgroup 41. Reference and rebaseline have no selected-rule signals. The later verification has zero diameter rejects but a six-point trend alert, so its capability estimates remain provisional. We retain that complication rather than deleting observations or searching for a cleaner seed.
 
 ### Visual evidence
+
+![Actual Minitab output reproduces 9.13 percent study variation and 15 distinct categories](minitab/outputs/gage_rr_evaluation.jpg)
+
+[Native Minitab project](minitab/outputs/shaft_quality.mpx) · [Software comparison and limitations](minitab/RUN_LOG.md). This is a later Minitab reproduction, not the tool used for the original analysis. Minitab detects the setup shift; it did not reproduce the reference verification trend alarm, so complete cross-tool agreement and closed effectiveness are **not** claimed.
 
 ![Quality-document traceability](quality_documents/traceability_flow.png)
 
